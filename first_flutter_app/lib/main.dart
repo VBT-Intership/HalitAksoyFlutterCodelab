@@ -6,7 +6,6 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random(); // Add this line.
     return MaterialApp(
       title: 'Welcome to Flutter',
       home: Scaffold(
@@ -14,16 +13,48 @@ class MyApp extends StatelessWidget {
           title: Text('Welcome to Flutter'),
         ),
         body: Center(
-          //child: Text('Hello World'),   // Replace this text...
-          child: Column(
-            children: <Widget>[
-              Text(wordPair.asString),
-              Text(wordPair.asCamelCase),
-              Text(wordPair.asLowerCase),
-            ],
-          ),  // With this text.
+          child: RandomWords(),
         ),
       ),
     );
   }
+}
+
+// #docregion RandomWordsState, RWS-class-only
+class RandomWordsState extends State<RandomWords> {
+  // #enddocregion RWS-class-only
+
+  WordPair wordPair;
+
+  @override
+  void initState() {
+    wordPair = WordPair.random();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(wordPair.asPascalCase),
+        SizedBox(height: 10),
+        RaisedButton(
+            child: Text("Generate Word"),
+            onPressed: () {
+              setState(() {
+                wordPair = WordPair.random();
+              });
+            })
+      ],
+    );
+  }
+  // #docregion RWS-class-only
+}
+// #enddocregion RandomWordsState, RWS-class-only
+
+// #docregion RandomWords
+class RandomWords extends StatefulWidget {
+  @override
+  RandomWordsState createState() => new RandomWordsState();
 }
